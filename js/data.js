@@ -88,4 +88,8 @@ const createFotoDescription = function () {
   };
 };
 
-Array.from({length: SIMILAR_PHOTO_COUNT}, createFotoDescription);
+const createFotoDescriptions = function() {
+  return Array.from({length: SIMILAR_PHOTO_COUNT}, createFotoDescription);
+};
+
+export {createFotoDescriptions};
