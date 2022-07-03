@@ -1,18 +1,24 @@
-import {createFotoDescriptions} from './data.js';
+import {createPhotoDescriptions} from './data.js';
+import {openPhotoCard} from './photo-view.js';
 
 const picturesContainer = document.querySelector('.pictures');
 const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
 const picturesFragment = document.createDocumentFragment();
 
-const fotoDescriptions = createFotoDescriptions();
+const photoDescriptions = createPhotoDescriptions();
 
-fotoDescriptions.forEach(({url, likes, comments}) => {
-  const fotoElement = pictureTemplate.cloneNode(true);
-  fotoElement.querySelector('.picture__img').src = url;
-  fotoElement.querySelector('.picture__likes').textContent = likes;
-  fotoElement.querySelector('.picture__comments').textContent = comments.length;
-  picturesFragment.appendChild(fotoElement);
+photoDescriptions.forEach((picture) => {
+  const photoElement = pictureTemplate.cloneNode(true);
+  photoElement.querySelector('.picture__img').src = picture.url;
+  photoElement.querySelector('.picture__likes').textContent = picture.likes;
+  photoElement.querySelector('.picture__comments').textContent = picture.comments.length;
+
+  photoElement.addEventListener('click', () => {
+    openPhotoCard(picture);
+  });
+
+  picturesFragment.appendChild(photoElement);
 });
 
 const displayUsersPictures = function () {
