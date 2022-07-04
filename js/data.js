@@ -72,7 +72,7 @@ const createComment = function () {
 };
 
 // создание описания к фотографии
-const createFotoDescription = function () {
+const createPhotoDescription = function () {
   return {
     id: getPhotoId(),
     url: `photos/${getUrl()}.jpg`,
@@ -82,8 +82,8 @@ const createFotoDescription = function () {
   };
 };
 
-const createFotoDescriptions = function() {
-  return Array.from({length: SIMILAR_PHOTO_COUNT}, createFotoDescription);
+const createPhotoDescriptions = function() {
+  return Array.from({length: SIMILAR_PHOTO_COUNT}, createPhotoDescription);
 };
 
-export {createFotoDescriptions};
+export {createPhotoDescriptions};
