@@ -32,7 +32,10 @@ const getElementNoRepeat = function (min, max) {
   };
 };
 
+const isEscapeKey = (evt) => evt.key === 'Escape';
+
 export {getRandomPositiveInteger};
 export {checkStringLength};
 export {getRandomArrayElement};
 export {getElementNoRepeat};
+export {isEscapeKey};
