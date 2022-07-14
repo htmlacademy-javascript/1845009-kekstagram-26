@@ -78,7 +78,7 @@ const createPhotoDescription = function () {
     url: `photos/${getUrl()}.jpg`,
     description: getRandomArrayElement(DESCRIPTIONS),
     likes: getRandomPositiveInteger(15, 200),
-    comments: Array.from({length: getRandomPositiveInteger(1, 3)}, createComment),
+    comments: Array.from({length: getRandomPositiveInteger(10, 20)}, createComment),
   };
 };
 
