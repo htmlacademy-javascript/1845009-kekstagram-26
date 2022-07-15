@@ -1,1 +1,0 @@
-import './edit-photo.js';
