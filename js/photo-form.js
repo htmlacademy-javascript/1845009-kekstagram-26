@@ -1,4 +1,8 @@
 import {isEscapeKey} from './util.js';
+import './photo-scale.js';
+import {scaleDown, scaleUp, scaleReset} from './photo-scale.js';
+import './select-effect.js';
+import {effectReset} from './select-effect.js';
 
 const photoUploadForm = document.querySelector('.img-upload__overlay');
 const photoUpload = document.querySelector('#upload-file');
@@ -24,6 +28,8 @@ const onPopupEscKeydown = (evt) => {
 function photoFormOpen () {
   photoUploadForm.classList.remove('hidden');
   document.querySelector('body').classList.add('modal-open');
+  photoUploadForm.querySelector('.scale__control--smaller').addEventListener('click', scaleDown);
+  photoUploadForm.querySelector('.scale__control--bigger').addEventListener('click', scaleUp);
   document.addEventListener('keydown', onPopupEscKeydown);
   cancelUpload.addEventListener('click', () => {
     photoFormClose();
@@ -34,6 +40,8 @@ function photoFormClose () {
   photoUpload.value = '';
   uploadForm.reset();
   pristine.reset();
+  effectReset();
+  scaleReset();
   photoUploadForm.classList.add('hidden');
   document.querySelector('body').classList.remove('modal-open');
   document.removeEventListener('keydown', onPopupEscKeydown);
