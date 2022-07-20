@@ -25,32 +25,18 @@ const renderPhotoCard = function (picture) {
 
   const fragment = document.createDocumentFragment();
   let countShownComments = 5;
-
-  for (let i =  commentsData.length - 1; i >= commentsData.length - countShownComments; i--) {
+  if (commentsData.length < 5) {
+    countShownComments = commentsData.length;
+  }
+  console.log(countShownComments);
+  for (let i =  0; i < countShownComments; i++) {
     fragment.appendChild(addComment(commentsData[i]));
   }
 
   photoCard.querySelector('.social__comment-count').textContent = `${countShownComments  } из ${picture.comments.length} комментариев`;
 
   commentsList.innerHTML = '';
-  commentsLoader.addEventListener('click', (evt) => {
-    evt.preventDefault();
 
-    const fragment1 = document.createDocumentFragment();
-    let count = 5;
-    if ((commentsData.length - countShownComments) < 5 && (commentsData.length - countShownComments) > 0) {
-      count = commentsData.length - countShownComments;
-    }
-    for (let i = commentsData.length - countShownComments - 1; i >= commentsData.length - countShownComments - count; i--) {
-      fragment1.appendChild(addComment(commentsData[i]));
-    }
-    countShownComments = countShownComments + fragment1.children.length;
-    commentsList.appendChild(fragment1);
-    if (countShownComments === commentsData.length) {
-      commentsLoader.classList.add('hidden');
-    }
-    photoCard.querySelector('.social__comment-count').innerHTML = `${countShownComments  } из ${picture.comments.length} комментариев`;
-  });
   commentsList.appendChild(fragment);
 };
 
