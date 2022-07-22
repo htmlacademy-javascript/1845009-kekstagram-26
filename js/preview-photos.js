@@ -1,4 +1,4 @@
-import {openPhotoCard} from './photo-view.js';
+import {renderPhotoCard} from './fill-photo-card.js';
 
 const picturesContainer = document.querySelector('.pictures');
 const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
@@ -13,7 +13,7 @@ const displayUsersPictures = function (photos) {
     photoElement.querySelector('.picture__comments').textContent = picture.comments.length;
 
     photoElement.addEventListener('click', () => {
-      openPhotoCard(picture);
+      renderPhotoCard(picture);
     });
 
     picturesFragment.appendChild(photoElement);
