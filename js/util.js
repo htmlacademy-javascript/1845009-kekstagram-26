@@ -50,12 +50,18 @@ const getSuccessMessage = function (title) {
       message.remove();
     }
   }, {once: true});
+  document.addEventListener('click', (evt) => {
+    if (evt.target === document.querySelector('.success') && evt.target !== document.querySelector('.success__inner')) {
+      message.remove();
+    }
+  });
   document.querySelector('body').appendChild(message);
 };
 
 const getErrorMessage = function (title) {
   const message = errorMessageTemplate.cloneNode(true);
   message.querySelector('.error__title').textContent = title;
+  message.style.zIndex = '5';
   message.querySelector('.error__button').addEventListener('click', (evt) => {
     evt.preventDefault();
     message.remove();
@@ -67,7 +73,7 @@ const getErrorMessage = function (title) {
     }
   }, {once: true});
   document.addEventListener('click', (evt) => {
-    if (evt.target !== document.querySelector('.success')) {
+    if (evt.target === document.querySelector('.error') && evt.target !== document.querySelector('.error__inner')) {
       message.remove();
     }
   });

@@ -52,14 +52,6 @@ function photoFormClose () {
   cancelUpload.removeEventListener('click', photoFormClose);
 }
 
-function photoFormCloseWithoutReset () {
-  photoUpload.value = '';
-  photoUploadForm.classList.add('hidden');
-  document.querySelector('body').classList.remove('modal-open');
-  document.removeEventListener('keydown', onPopupEscKeydown);
-  cancelUpload.removeEventListener('click', photoFormClose);
-}
-
 photoUpload.addEventListener('change', () => {
   photoFormOpen();
 });
@@ -156,7 +148,6 @@ const setUserFormSubmit = () => {
         },
         () => {
           unblockSubmitButton();
-          photoFormCloseWithoutReset();
           getErrorMessage('Ошибка загрузки файла');
         },
         new FormData(evt.target),
