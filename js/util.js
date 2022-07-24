@@ -98,6 +98,14 @@ const getErrorDataMessage = function (title) {
   document.querySelector('body').appendChild(message);
 };
 
+function debounce (callback, timeoutDelay = 500) {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+}
+
 export {getRandomPositiveInteger};
 export {checkStringLength};
 export {getRandomArrayElement};
@@ -106,3 +114,4 @@ export {isEscapeKey};
 export {getSuccessMessage};
 export {getErrorMessage};
 export {getErrorDataMessage};
+export {debounce};
