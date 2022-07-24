@@ -3,6 +3,9 @@ import './photo-scale.js';
 import {scaleDown, scaleUp, scaleReset} from './photo-scale.js';
 import './select-effect.js';
 import {effectReset} from './select-effect.js';
+import {getSuccessMessage} from './util.js';
+import {getErrorMessage} from './util.js';
+import {sendData} from './data-exchange.js';
 
 const photoUploadForm = document.querySelector('.img-upload__overlay');
 const photoUpload = document.querySelector('#upload-file');
@@ -11,6 +14,7 @@ const cancelUpload = document.querySelector('#upload-cancel');
 const uploadForm = document.querySelector('.img-upload__form');
 const hashtagsInput = uploadForm.querySelector('.text__hashtags');
 const commentInput = uploadForm.querySelector('.text__description');
+const submitButton = uploadForm.querySelector('.img-upload__submit');
 
 const pristine = new Pristine (uploadForm, {
   classTo: 'img-upload__field-wrapper',
@@ -123,9 +127,35 @@ function validateCommentLength (value) {
 
 pristine.addValidator(commentInput, validateCommentLength, 'Длина комментария не должна превышать 140 символов');
 
-uploadForm.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  if (pristine.validate()) {
-    uploadForm.submit();
-  }
-});
+const blockSubmitButton = function () {
+  submitButton.disabled = true;
+};
+
+const unblockSubmitButton = function () {
+  submitButton.disabled = false;
+};
+
+const setUserFormSubmit = () => {
+  uploadForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    if (pristine.validate()) {
+      blockSubmitButton();
+      sendData(
+        () => {
+          unblockSubmitButton();
+          photoFormClose();
+          getSuccessMessage('Изображение успешно загружено');
+        },
+        () => {
+          unblockSubmitButton();
+          getErrorMessage('Ошибка загрузки файла');
+        },
+        new FormData(evt.target),
+      );
+    }
+  });
+};
+
+export {setUserFormSubmit, photoFormClose};
+
+

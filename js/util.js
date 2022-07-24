@@ -1,3 +1,6 @@
+const successMessageTemplate = document.querySelector('#success').content.querySelector('.success');
+const errorMessageTemplate = document.querySelector('#error').content.querySelector('.error');
+
 // создание случайного числа. Источник - https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_random
 const getRandomPositiveInteger = function (a, b) {
   const lower = Math.ceil(Math.min(Math.abs(a), Math.abs(b)));
@@ -34,8 +37,72 @@ const getElementNoRepeat = function (min, max) {
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
+const getSuccessMessage = function (title) {
+  const message = successMessageTemplate.cloneNode(true);
+  message.querySelector('.success__title').textContent = title;
+  message.querySelector('.success__button').addEventListener('click', (evt) => {
+    evt.preventDefault();
+    message.remove();
+  }, {once: true});
+  document.addEventListener('keydown', (evt) => {
+    if (isEscapeKey(evt)) {
+      evt.preventDefault();
+      message.remove();
+    }
+  }, {once: true});
+  document.addEventListener('click', (evt) => {
+    if (evt.target === document.querySelector('.success') && evt.target !== document.querySelector('.success__inner')) {
+      message.remove();
+    }
+  });
+  document.querySelector('body').appendChild(message);
+};
+
+const getErrorMessage = function (title) {
+  const message = errorMessageTemplate.cloneNode(true);
+  message.querySelector('.error__title').textContent = title;
+  message.style.zIndex = '5';
+  message.querySelector('.error__button').addEventListener('click', (evt) => {
+    evt.preventDefault();
+    message.remove();
+  }, {once: true});
+  document.addEventListener('keydown', (evt) => {
+    if (isEscapeKey(evt)) {
+      evt.preventDefault();
+      message.remove();
+    }
+  }, {once: true});
+  document.addEventListener('click', (evt) => {
+    if (evt.target === document.querySelector('.error') && evt.target !== document.querySelector('.error__inner')) {
+      message.remove();
+    }
+  });
+  document.querySelector('body').appendChild(message);
+};
+
+const getErrorDataMessage = function (title) {
+  const message = errorMessageTemplate.cloneNode(true);
+  message.querySelector('.error__title').textContent = title;
+  message.querySelector('.error__button').textContent = 'Перезагрузить страницу';
+  message.querySelector('.error__button').addEventListener('click', (evt) => {
+    evt.preventDefault();
+    message.remove();
+    location.reload();
+  }, {once: true});
+  document.addEventListener('keydown', (evt) => {
+    if (isEscapeKey(evt)) {
+      evt.preventDefault();
+      message.remove();
+    }
+  }, {once: true});
+  document.querySelector('body').appendChild(message);
+};
+
 export {getRandomPositiveInteger};
 export {checkStringLength};
 export {getRandomArrayElement};
 export {getElementNoRepeat};
 export {isEscapeKey};
+export {getSuccessMessage};
+export {getErrorMessage};
+export {getErrorDataMessage};
