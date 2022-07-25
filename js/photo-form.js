@@ -6,6 +6,7 @@ import {effectReset} from './select-effect.js';
 import {getSuccessMessage} from './util.js';
 import {getErrorMessage} from './util.js';
 import {sendData} from './data-exchange.js';
+import './photo-upload.js';
 
 const photoUploadForm = document.querySelector('.img-upload__overlay');
 const photoUpload = document.querySelector('#upload-file');
