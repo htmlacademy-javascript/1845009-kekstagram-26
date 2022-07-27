@@ -1,37 +1,37 @@
-const loadedPhoto = document.querySelector('.img-upload__preview').querySelector('img');
-const effectsRadios = document.querySelectorAll('.effects__radio');
-const sliderContainer = document.querySelector('.img-upload__effect-level');
+const loadedPhotoElement = document.querySelector('.img-upload__preview').querySelector('img');
+const effectsRadioElements = document.querySelectorAll('.effects__radio');
+const sliderContainerElement = document.querySelector('.img-upload__effect-level');
 const sliderElement = document.querySelector('.effect-level__slider');
-const effectLevel = document.querySelector('.effect-level__value');
+const effectLevelElement = document.querySelector('.effect-level__value');
 let currentClass;
 
 const setChromeEffect = function () {
   currentClass = 'effects__preview--chrome';
-  return loadedPhoto.classList.add(currentClass);
+  return loadedPhotoElement.classList.add(currentClass);
 };
 
 const setSepiaEffect = function () {
   currentClass = 'effects__preview--sepia';
-  return loadedPhoto.classList.add(currentClass);
+  return loadedPhotoElement.classList.add(currentClass);
 };
 
 const setMarvinEffect = function () {
   currentClass = 'effects__preview--marvin';
-  return loadedPhoto.classList.add(currentClass);
+  return loadedPhotoElement.classList.add(currentClass);
 };
 
 const setPhobosEffect = function () {
   currentClass = 'effects__preview--phobos';
-  return loadedPhoto.classList.add(currentClass);
+  return loadedPhotoElement.classList.add(currentClass);
 };
 
 const setHeatEffect = function () {
   currentClass = 'effects__preview--heat';
-  return loadedPhoto.classList.add(currentClass);
+  return loadedPhotoElement.classList.add(currentClass);
 };
 
 const sliderReset = function () {
-  loadedPhoto.style.filter = '';
+  loadedPhotoElement.style.filter = '';
 };
 
 noUiSlider.create(sliderElement, {
@@ -44,11 +44,11 @@ noUiSlider.create(sliderElement, {
   connect: 'lower',
 });
 
-effectsRadios.forEach((effectRadio) => {
+effectsRadioElements.forEach((effectRadio) => {
   effectRadio.addEventListener('change', (evt) => {
     evt.preventDefault();
     sliderReset();
-    loadedPhoto.classList.remove(currentClass);
+    loadedPhotoElement.classList.remove(currentClass);
     switch(effectRadio.value) {
       case 'chrome':
         setChromeEffect();
@@ -60,7 +60,7 @@ effectsRadios.forEach((effectRadio) => {
           step: 0.1,
           start: 1,
         });
-        sliderContainer.classList.remove('visually-hidden');
+        sliderContainerElement.classList.remove('visually-hidden');
         break;
       case 'sepia':
         setSepiaEffect();
@@ -72,7 +72,7 @@ effectsRadios.forEach((effectRadio) => {
           step: 0.1,
           start: 1,
         });
-        sliderContainer.classList.remove('visually-hidden');
+        sliderContainerElement.classList.remove('visually-hidden');
         break;
       case 'marvin':
         setMarvinEffect();
@@ -84,7 +84,7 @@ effectsRadios.forEach((effectRadio) => {
           step: 1,
           start: 100,
         });
-        sliderContainer.classList.remove('visually-hidden');
+        sliderContainerElement.classList.remove('visually-hidden');
         break;
       case 'phobos':
         setPhobosEffect();
@@ -96,7 +96,7 @@ effectsRadios.forEach((effectRadio) => {
           step: 0.1,
           start: 3,
         });
-        sliderContainer.classList.remove('visually-hidden');
+        sliderContainerElement.classList.remove('visually-hidden');
         break;
       case 'heat':
         setHeatEffect();
@@ -108,46 +108,46 @@ effectsRadios.forEach((effectRadio) => {
           step: 0.1,
           start: 3,
         });
-        sliderContainer.classList.remove('visually-hidden');
+        sliderContainerElement.classList.remove('visually-hidden');
         break;
       case 'none':
-        sliderContainer.classList.add('visually-hidden');
+        sliderContainerElement.classList.add('visually-hidden');
     }
   });
 });
 
 sliderElement.noUiSlider.on('update', () => {
   let activeElement;
-  for (let i = 0; i < effectsRadios.length; i++) {
-    if (effectsRadios[i].checked === true) {
-      activeElement = effectsRadios[i];
+  for (let i = 0; i < effectsRadioElements.length; i++) {
+    if (effectsRadioElements[i].checked === true) {
+      activeElement = effectsRadioElements[i];
     }
   }
-  effectLevel.value = sliderElement.noUiSlider.get();
+  effectLevelElement.value = sliderElement.noUiSlider.get();
   switch (activeElement.value) {
     case 'chrome':
-      loadedPhoto.style.filter = `grayscale(${effectLevel.value})`;
+      loadedPhotoElement.style.filter = `grayscale(${effectLevelElement.value})`;
       break;
     case 'sepia':
-      loadedPhoto.style.filter = `sepia(${effectLevel.value})`;
+      loadedPhotoElement.style.filter = `sepia(${effectLevelElement.value})`;
       break;
     case 'marvin':
-      loadedPhoto.style.filter = `invert(${effectLevel.value}%)`;
+      loadedPhotoElement.style.filter = `invert(${effectLevelElement.value}%)`;
       break;
     case 'phobos':
-      loadedPhoto.style.filter = `blur(${effectLevel.value}px)`;
+      loadedPhotoElement.style.filter = `blur(${effectLevelElement.value}px)`;
       break;
     case 'heat':
-      loadedPhoto.style.filter = `brightness(${effectLevel.value})`;
+      loadedPhotoElement.style.filter = `brightness(${effectLevelElement.value})`;
       break;
   }
 });
 
-const effectReset = function () {
-  loadedPhoto.classList.remove(currentClass);
-  loadedPhoto.style.filter = '';
-  sliderContainer.classList.add('visually-hidden');
+const resetEffets = function () {
+  loadedPhotoElement.classList.remove(currentClass);
+  loadedPhotoElement.style.filter = '';
+  sliderContainerElement.classList.add('visually-hidden');
   document.querySelector('#effect-none').checked = true;
 };
 
-export {effectReset};
+export {resetEffets};

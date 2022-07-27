@@ -1,32 +1,33 @@
 let currentScale = 1;
 let currentScalePercent = 100;
-const loadedPhoto = document.querySelector('.img-upload__preview');
-const scaleValue = document.querySelector('.scale__control--value');
-scaleValue.value = `${currentScalePercent}%`;
+const EFFECTSCALE = 25;
+const loadedPhotoElement = document.querySelector('.img-upload__preview');
+const scaleValueElement = document.querySelector('.scale__control--value');
+scaleValueElement.value = `${currentScalePercent}%`;
 
 const scaleDown = function () {
-  if (currentScale > 0.25) {
-    currentScale = currentScale - 0.25;
-    currentScalePercent = currentScalePercent - 25;
-    loadedPhoto.style.transform = `scale(${currentScale})`;
-    scaleValue.value = `${currentScalePercent}%`;
+  if (currentScale > EFFECTSCALE / 100) {
+    currentScale = currentScale - EFFECTSCALE / 100;
+    currentScalePercent = currentScalePercent - EFFECTSCALE;
+    loadedPhotoElement.style.transform = `scale(${currentScale})`;
+    scaleValueElement.value = `${currentScalePercent}%`;
   }
 };
 
 const scaleUp = function () {
   if (currentScale < 1) {
-    currentScale = currentScale + 0.25;
-    currentScalePercent = currentScalePercent + 25;
-    loadedPhoto.style.transform = `scale(${currentScale})`;
-    scaleValue.value = `${currentScalePercent}%`;
+    currentScale = currentScale + EFFECTSCALE / 100;
+    currentScalePercent = currentScalePercent + EFFECTSCALE;
+    loadedPhotoElement.style.transform = `scale(${currentScale})`;
+    scaleValueElement.value = `${currentScalePercent}%`;
   }
 };
 
 const scaleReset = function () {
   currentScale = 1;
   currentScalePercent = 100;
-  loadedPhoto.style.transform = `scale(${currentScale})`;
-  scaleValue.value = `${currentScalePercent}%`;
+  loadedPhotoElement.style.transform = `scale(${currentScale})`;
+  scaleValueElement.value = `${currentScalePercent}%`;
 };
 
 export {scaleDown, scaleUp, scaleReset};
