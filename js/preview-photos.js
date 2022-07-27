@@ -1,18 +1,18 @@
 import {renderPhotoCard} from './fill-photo-card.js';
 import {getElementNoRepeat} from './util.js';
 
-const picturesContainer = document.querySelector('.pictures');
-const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
+const picturesContainerElement = document.querySelector('.pictures');
+const pictureTemplateElement = document.querySelector('#picture').content.querySelector('.picture');
 const randomNumber = 10;
-const buttonRandomPictures = document.querySelector('#filter-random');
-const buttonPopularPictures = document.querySelector('#filter-discussed');
-const buttonDefaultPictures = document.querySelector('#filter-default');
+const buttonRandomPictureElements = document.querySelector('#filter-random');
+const buttonPopularPictureElements = document.querySelector('#filter-discussed');
+const buttonDefaultPictureElements = document.querySelector('#filter-default');
 
 const picturesFragment = document.createDocumentFragment();
 
 const displayUsersPictures = function (photos) {
   photos.forEach((picture) => {
-    const photoElement = pictureTemplate.cloneNode(true);
+    const photoElement = pictureTemplateElement.cloneNode(true);
     photoElement.querySelector('.picture__img').src = picture.url;
     photoElement.querySelector('.picture__likes').textContent = picture.likes;
     photoElement.querySelector('.picture__comments').textContent = picture.comments.length;
@@ -22,7 +22,7 @@ const displayUsersPictures = function (photos) {
     });
     picturesFragment.appendChild(photoElement);
   });
-  picturesContainer.appendChild(picturesFragment);
+  picturesContainerElement.appendChild(picturesFragment);
 };
 
 const displayDefaultUserPictures = function (photos) {
@@ -31,13 +31,13 @@ const displayDefaultUserPictures = function (photos) {
 };
 
 const displayRandomUserPictures = function (photos) {
-  const photosArray = [];
+  const randomPhotos = [];
   const getRandomPhoto = getElementNoRepeat(0, photos.length - 1);
   for (let i = 0; i < randomNumber; i++) {
-    photosArray.push(photos[getRandomPhoto()]);
+    randomPhotos.push(photos[getRandomPhoto()]);
   }
   document.querySelectorAll('.picture').forEach((element) => element.remove());
-  displayUsersPictures(photosArray);
+  displayUsersPictures(randomPhotos);
 };
 
 const displayPopularFirstPictures = function (photos) {
@@ -47,28 +47,28 @@ const displayPopularFirstPictures = function (photos) {
 };
 
 const setDefaultButtonClick = function (cb) {
-  buttonDefaultPictures.addEventListener('click', (evt) => {
+  buttonDefaultPictureElements.addEventListener('click', (evt) => {
     evt.preventDefault();
     document.querySelector('.img-filters__button--active').classList.remove('img-filters__button--active');
-    buttonDefaultPictures.classList.add('img-filters__button--active');
+    buttonDefaultPictureElements.classList.add('img-filters__button--active');
     cb();
   });
 };
 
 const setRandomButtonClick = function (cb) {
-  buttonRandomPictures.addEventListener('click', (evt) => {
+  buttonRandomPictureElements.addEventListener('click', (evt) => {
     evt.preventDefault();
     document.querySelector('.img-filters__button--active').classList.remove('img-filters__button--active');
-    buttonRandomPictures.classList.add('img-filters__button--active');
+    buttonRandomPictureElements.classList.add('img-filters__button--active');
     cb();
   });
 };
 
 const setPopularButtonClick = function (cb) {
-  buttonPopularPictures.addEventListener('click', (evt) => {
+  buttonPopularPictureElements.addEventListener('click', (evt) => {
     evt.preventDefault();
     document.querySelector('.img-filters__button--active').classList.remove('img-filters__button--active');
-    buttonPopularPictures.classList.add('img-filters__button--active');
+    buttonPopularPictureElements.classList.add('img-filters__button--active');
     cb();
   });
 };

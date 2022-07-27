@@ -1,43 +1,33 @@
 import {isEscapeKey} from './util.js';
 
-const photoCard = document.querySelector('.big-picture');
-const commentsList = document.querySelector('.social__comments');
-const commentTemplate = photoCard.querySelector('.social__comment');
-const photoSource = photoCard.querySelector('.big-picture__img').querySelector('img');
-const commentsLoader = photoCard.querySelector('.comments-loader');
-const photoLikes = photoCard.querySelector('.likes-count');
-const photoDescription = photoCard.querySelector('.social__caption');
-const closedButton = photoCard.querySelector('.big-picture__cancel');
+const photoCardElement = document.querySelector('.big-picture');
+const commentsListElement = document.querySelector('.social__comments');
+const commentTemplateElement = photoCardElement.querySelector('.social__comment');
+const photoSourceElement = photoCardElement.querySelector('.big-picture__img').querySelector('img');
+const commentsLoaderElement = photoCardElement.querySelector('.comments-loader');
+const photoLikesElement = photoCardElement.querySelector('.likes-count');
+const photoDescriptionElement = photoCardElement.querySelector('.social__caption');
+const closedButtonElement = photoCardElement.querySelector('.big-picture__cancel');
 
 const addComment = function (comment) {
-  const commentObject = commentTemplate.cloneNode(true);
-  const commentPicture = commentObject.querySelector('.social__picture');
-  commentPicture.src = comment.avatar;
-  commentPicture.alt = comment.name;
-  const commentText = commentObject.querySelector('.social__text');
-  commentText.textContent = comment.message;
+  const commentObject = commentTemplateElement.cloneNode(true);
+  const commentPictureElement = commentObject.querySelector('.social__picture');
+  commentPictureElement.src = comment.avatar;
+  commentPictureElement.alt = comment.name;
+  const commentTextElement = commentObject.querySelector('.social__text');
+  commentTextElement.textContent = comment.message;
   return commentObject;
 };
 
 const renderPhotoCard = function (picture) {
-
-  const onPopupEscKeydown = (evt) => {
-    if (isEscapeKey(evt)) {
-      evt.preventDefault();
-      closePhotoCard();
-    }
-  };
-
-  photoCard.classList.remove('hidden');
+  photoCardElement.classList.remove('hidden');
   document.querySelector('body').classList.add('modal-open');
-  document.addEventListener('keydown', onPopupEscKeydown);
-  closedButton.addEventListener('click', closePhotoCard);
 
-  photoSource.src = picture.url;
-  photoLikes.textContent = picture.likes;
-  photoDescription.textContent = picture.description;
+  photoSourceElement.src = picture.url;
+  photoLikesElement.textContent = picture.likes;
+  photoDescriptionElement.textContent = picture.description;
   const commentsData = picture.comments;
-  commentsLoader.classList.remove('hidden');
+  commentsLoaderElement.classList.remove('hidden');
 
   const fragment = document.createDocumentFragment();
   let countShownComments = 5;
@@ -49,9 +39,9 @@ const renderPhotoCard = function (picture) {
   }
 
 
-  photoCard.querySelector('.social__comment-count').textContent = `${countShownComments  } из ${picture.comments.length} комментариев`;
+  photoCardElement.querySelector('.social__comment-count').textContent = `${countShownComments  } из ${picture.comments.length} комментариев`;
 
-  commentsList.innerHTML = '';
+  commentsListElement.innerHTML = '';
 
   const updateComments = function (evt) {
     evt.preventDefault();
@@ -64,27 +54,35 @@ const renderPhotoCard = function (picture) {
       fragment1.appendChild(addComment(commentsData[i]));
     }
     countShownComments = countShownComments + fragment1.children.length;
-    commentsList.appendChild(fragment1);
+    commentsListElement.appendChild(fragment1);
     if (countShownComments === commentsData.length) {
-      commentsLoader.classList.add('hidden');
+      commentsLoaderElement.classList.add('hidden');
     }
-    photoCard.querySelector('.social__comment-count').innerHTML = `${countShownComments  } из ${picture.comments.length} комментариев`;
+    photoCardElement.querySelector('.social__comment-count').textContent = `${countShownComments  } из ${picture.comments.length} комментариев`;
   };
 
+  const closePhotoCard = function () {
+    photoCardElement.classList.add('hidden');
+    closedButtonElement.removeEventListener('click', closePhotoCard);
+    commentsLoaderElement.removeEventListener('click', updateComments);
+  };
+
+  document.addEventListener('keydown', (evt) => {
+    if (isEscapeKey(evt)) {
+      evt.preventDefault();
+      closePhotoCard();
+    }
+  }, {once: true});
+  closedButtonElement.addEventListener('click', closePhotoCard);
+
   if (commentsData.length > 5) {
-    commentsLoader.classList.remove('visually-hidden');
-    commentsLoader.addEventListener('click', updateComments);
+    commentsLoaderElement.classList.remove('visually-hidden');
+    commentsLoaderElement.addEventListener('click', updateComments);
   } else {
-    commentsLoader.classList.add('visually-hidden');
+    commentsLoaderElement.classList.add('visually-hidden');
   }
 
-  function closePhotoCard () {
-    photoCard.classList.add('hidden');
-    document.removeEventListener('keydown', onPopupEscKeydown);
-    closedButton.removeEventListener('click', closePhotoCard);
-    commentsLoader.removeEventListener('click', updateComments);
-  }
-  commentsList.appendChild(fragment);
+  commentsListElement.appendChild(fragment);
 };
 
 export {renderPhotoCard};
