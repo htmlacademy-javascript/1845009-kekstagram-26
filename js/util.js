@@ -1,5 +1,5 @@
-const successMessageTemplate = document.querySelector('#success').content.querySelector('.success');
-const errorMessageTemplate = document.querySelector('#error').content.querySelector('.error');
+const successMessageTemplateElement = document.querySelector('#success').content.querySelector('.success');
+const errorMessageTemplateElement = document.querySelector('#error').content.querySelector('.error');
 
 // создание случайного числа. Источник - https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_random
 const getRandomPositiveInteger = function (a, b) {
@@ -7,16 +7,6 @@ const getRandomPositiveInteger = function (a, b) {
   const upper = Math.floor(Math.max(Math.abs(a), Math.abs(b)));
   const result = Math.random() * (upper - lower + 1) + lower;
   return Math.floor(result);
-};
-
-// проверка строки
-const checkStringLength = function (userString, maxLength) {
-  return !(userString.length > maxLength);
-};
-
-// получение случайного значения из массива
-const getRandomArrayElement = function (elements) {
-  return elements[getRandomPositiveInteger(0, elements.length - 1)];
 };
 
 // получение случайного значения без повтора в диапазоне
@@ -35,10 +25,12 @@ const getElementNoRepeat = function (min, max) {
   };
 };
 
-const isEscapeKey = (evt) => evt.key === 'Escape';
+const isEscapeKey = function (evt) {
+  return evt.key === 'Escape';
+};
 
 const getSuccessMessage = function (title) {
-  const message = successMessageTemplate.cloneNode(true);
+  const message = successMessageTemplateElement.cloneNode(true);
   message.querySelector('.success__title').textContent = title;
   message.querySelector('.success__button').addEventListener('click', (evt) => {
     evt.preventDefault();
@@ -59,7 +51,7 @@ const getSuccessMessage = function (title) {
 };
 
 const getErrorMessage = function (title) {
-  const message = errorMessageTemplate.cloneNode(true);
+  const message = errorMessageTemplateElement.cloneNode(true);
   message.querySelector('.error__title').textContent = title;
   message.style.zIndex = '5';
   message.querySelector('.error__button').addEventListener('click', (evt) => {
@@ -81,7 +73,7 @@ const getErrorMessage = function (title) {
 };
 
 const getErrorDataMessage = function (title) {
-  const message = errorMessageTemplate.cloneNode(true);
+  const message = errorMessageTemplateElement.cloneNode(true);
   message.querySelector('.error__title').textContent = title;
   message.querySelector('.error__button').textContent = 'Перезагрузить страницу';
   message.querySelector('.error__button').addEventListener('click', (evt) => {
@@ -98,17 +90,14 @@ const getErrorDataMessage = function (title) {
   document.querySelector('body').appendChild(message);
 };
 
-function debounce (callback, timeoutDelay = 500) {
+const debounce = function (callback, timeoutDelay = 500) {
   let timeoutId;
   return (...rest) => {
     clearTimeout(timeoutId);
     timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
   };
-}
+};
 
-export {getRandomPositiveInteger};
-export {checkStringLength};
-export {getRandomArrayElement};
 export {getElementNoRepeat};
 export {isEscapeKey};
 export {getSuccessMessage};
